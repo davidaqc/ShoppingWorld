@@ -1,0 +1,84 @@
+<app-nabvar-admin></app-nabvar-admin>
+
+<div class="container mt-3">
+    <div class="card">
+        <div class="card-header">Gestionar Productos</div>
+        <div class="card-body">
+            <table id="empleadosTable" border="1" class="table table-bordered table-lg">
+                <thead class="thead-light text-center">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Categoria</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-center" *ngFor="let producto of productos; let i = index">
+                        <td>{{producto.nombre_producto}}</td>
+                        <td>{{producto.precio}}</td>
+                        <td>{{producto.stock}}</td>
+                        <td>{{producto.nombre_categoria}}</td>
+                        <td>
+                            <a class="btn btn-primary" (click)="actualizarProducto(mymodal,producto)"> Editar </a>
+                            <a (click)="eliminarProducto(producto)" class="btn btn-danger ml-4" style="margin-left: 10px;"> Eliminar </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="submit" class="btn btn-success" (click)="crearNuevo(mymodal)">
+                Crear nuevo
+            </button>
+        </div>
+    </div>
+</div>
+
+<ng-template #mymodal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Información</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-producto" #formProducto="ngForm" (ngSubmit)="guardarProducto(formProducto)">
+            <div class="form-group">
+                <label for="nombre">Producto</label>
+                <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre del producto"
+                    [(ngModel)]="nuevoProducto.nombre" required>
+            </div>
+            <div class="form-group" style="margin-top: 10px;">
+                <label for="descripcion">Descripción</label>
+                <input type="text" id="descripcion" name="descripcion" class="form-control" placeholder="Descripción"
+                    [(ngModel)]="nuevoProducto.descripcion" required>
+            </div>
+            <div class="form-group" style="margin-top: 10px;"> 
+                <label for="detalles">Detalles</label>
+                <input type="text" id="detalles" name="detalles" class="form-control" placeholder="Detalles"
+                    [(ngModel)]="nuevoProducto.detalles">
+            </div>
+            <div class="form-group" style="margin-top: 10px;">
+                <label for="precio">Precio</label>
+                <input type="number" id="precio" name="precio" class="form-control" placeholder="Precio"
+                    [(ngModel)]="nuevoProducto.precio" required>
+            </div>
+            <div class="form-group" style="margin-top: 10px;"> 
+                <label for="stock">Stock</label>
+                <input type="number" id="stock" name="stock" class="form-control" placeholder="Stock"
+                    [(ngModel)]="nuevoProducto.stock" required>
+            </div>
+            <div class="form-group" style="margin-top: 10px;">
+                <label for="categoria">Categoría</label>
+                <select [(ngModel)]="nuevoProducto.id_categoria" name="categoria" id="categoria" class="form-control"
+                    required>
+                    <option *ngFor="let categoria of categoriasDisponibles" [value]="categoria.idCategoria">
+                        {{categoria.nombreCategoria}}</option>
+                </select>
+            </div>
+            <div style="margin-top: 20px;">
+                <button type="submit" class="btn btn-light">Guardar</button>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close()">Cerrar</button>
+    </div>
+</ng-template>

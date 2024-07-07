@@ -1,0 +1,44 @@
+<div class="login-page">
+    <div class="container">
+        <div class="row justify-content-center align-items-center" style="height: 100vh;">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white text-center">Bienvenido a Shopping World!</div>
+                    <div class="card-body">
+                        <form (ngSubmit)="verificarCredenciales()">
+                            <div class="mb-3 row">
+                                <label for="email_address" class="col-md-4 col-form-label">Email</label>
+                                <div class="col-md-8">
+                                    <input type="text" id="email_address" class="form-control" name="email-address" required autofocus [(ngModel)]="datosUsuario.Email">
+                                </div>
+                            </div>
+
+                            <div class="mb-3 row">
+                                <label for="password" class="col-md-4 col-form-label">Contraseña</label>
+                                <div class="col-md-8">
+                                    <input type="password" id="password" class="form-control" name="password" required [(ngModel)]="datosUsuario.Password">
+                                </div>
+                            </div>
+
+                            <div class="mb-3 row">
+                                <div class="col-md-8 offset-md-4">
+                                    <button type="submit" class="btn btn-success btn-block">
+                                        Iniciar Sesión
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Mostrar mensaje de error -->
+                            <div *ngIf="errorInicioSesion" class="alert alert-danger mt-3" role="alert">
+                                Usuario o contraseña incorrectos. Intente de nuevo.
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center">
+                        <p>¿No tienes una cuenta? <a routerLink="/signup">Regístrate aquí</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
