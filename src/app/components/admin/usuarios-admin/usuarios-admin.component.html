@@ -1,0 +1,58 @@
+<app-nabvar-admin></app-nabvar-admin>
+
+<div class="container mt-3">
+    <div class="card">
+        <div class="card-header">Gestionar Usuarios</div>
+
+        <div class="card-body">
+
+            <!-- Mensaje de éxito -->
+            <div class="alert alert-success text-center" *ngIf="showSuccess" style="margin-bottom: 10px;">
+                {{ successMessage }}
+            </div>
+
+            <form class="d-flex mb-3" (submit)="obtenerUsuarioPorNombre()">
+                <input type="text" id="email_address" class="form-control me-2" name="email-address" placeholder="Ingrese el nombre" required autofocus [(ngModel)]="campoNombre">
+                <button class="btn btn-success" type="submit" [disabled]="showHayUsuariosEnBD">Buscar</button>
+            </form>
+
+            <!-- Mensaje si no se encontró ningún usuario por el nombre -->
+            <div *ngIf="showHayUsuarioEnBD" class="alert alert-warning text-center">
+                No se encontró ningún usuario con ese nombre.
+            </div>
+
+            <!-- Mensaje si no hay usuarios disponibles en general -->
+            <div *ngIf="showHayUsuariosEnBD" class="alert alert-warning text-center">
+                No hay usuarios registrados actualmente.
+            </div>
+
+            <table class="table table-bordered table-sm" *ngIf="usuarios.length > 0">
+            <thead class="thead-light text-center">
+                <tr>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Correo</th>
+                <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="text-center" *ngFor="let usuario of usuarios; let i = index">
+                <td>{{usuario.nombre}}</td>
+                <td>{{usuario.apellidos}}</td>
+                <td>{{usuario.correo}}</td>
+                <td>
+                    <button class="btn btn-danger" (click)="mostrarModalConfirmacion(usuario)">Eliminar</button>
+                </td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<app-confirmation-modal 
+    [showConfirmation]="showConfirmation"
+    (confirmAction)="confirmarEliminacion()"
+    (cancelAction)="cancelarEliminacion()">
+</app-confirmation-modal>
+

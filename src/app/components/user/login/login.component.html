@@ -1,0 +1,48 @@
+<div class="login-page">
+    <div class="container">
+        <div class="row justify-content-center align-items-center" style="height: 100vh;">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white text-center">Bienvenido a Shopping World!</div>
+                    <div class="card-body">
+                        <form (ngSubmit)="verificarCredenciales()">
+                            <div class="mb-3 row">
+                                <label for="email_address" class="col-md-4 col-form-label">Email</label>
+                                <div class="col-md-8">
+                                    <input type="text" id="email_address" class="form-control" name="email-address" required autofocus [(ngModel)]="datosUsuario.Email">
+                                </div>
+                            </div>
+
+                            <div class="mb-3 row">
+                                <label for="contrasena" class="col-md-4 col-form-label">Contraseña</label>
+                                <div class="col-md-8">
+                                  <div class="input-group">
+                                    <input [(ngModel)]="datosUsuario.Password" [type]="mostrarContrasena ? 'text' : 'password'" id="contrasena" class="form-control" name="contrasena" required>
+                                    <span class="input-group-text" (click)="togglePasswordVisibility()" style="cursor: pointer;">
+                                      <i class="fas" [ngClass]="{'fa-eye': !mostrarContrasena, 'fa-eye-slash': mostrarContrasena}"></i>
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            
+                            <div class="alert alert-success text-center" *ngIf="showSuccess" style="margin-bottom: 10px;">
+                                {{ successMessage }}
+                            </div>
+
+                            <div class="mb-3 row">
+                                <div class="col-md-8 offset-md-4">
+                                    <button type="submit" class="btn btn-success btn-block">
+                                        Iniciar Sesión
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center">
+                        <p>¿No tienes una cuenta? <a routerLink="/signup">Regístrate aquí</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+<app-nabvar-admin></app-nabvar-admin>
+
+<div class="container mt-3">
+	<div class="card">
+		<div class="card-header">Informacion General</div>
+		<div class="card-body">
+			<table id="platosTable" border="1" class="table table-bordered table-sm">
+				<thead class="thead-light text-center">
+					<tr>
+						<th>Descripción</th>
+						<th>Valor</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="text-center">
+						<td>Total de productos</td>
+						<td>{{metricas.productosCount}}</td>                     
+					</tr>
+					<tr class="text-center">
+						<td>Total de categorias</td>
+						<td>{{metricas.categoriasCount}}</td>                     
+					</tr>
+					<tr class="text-center">
+						<td>Total de usuarios</td>
+						<td>{{metricas.usuariosCount}}</td>                     
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

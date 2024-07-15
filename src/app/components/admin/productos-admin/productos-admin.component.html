@@ -1,0 +1,173 @@
+<app-nabvar-admin></app-nabvar-admin>
+
+<div class="container mt-3">
+  <div class="card">
+      <div class="card-header">Gestionar Productos</div>
+      <div class="card-body">
+          <!-- Snackbar for success message -->
+          <div class="alert alert-success text-center" *ngIf="showSuccess" style="margin-bottom: 10px;">
+              {{ successMessage }}
+          </div>
+
+          <!-- Message if no products available -->
+          <div *ngIf="productos.length == 0" class="alert alert-warning text-center">
+              No hay productos registrados actualmente.
+          </div>
+
+          <div class="d-flex justify-content-start mb-3">
+              <button type="submit" class="btn btn-success" (click)="crearNuevo(mymodal)">
+                  Crear nuevo
+              </button>
+          </div>
+
+          <table id="empleadosTable" border="1" class="table table-bordered table-lg" *ngIf="productos.length > 0">
+              <thead class="thead-light text-center">
+                  <tr>
+                      <th>Nombre</th>
+                      <th>Precio</th>
+                      <th>Stock</th>
+                      <th>Categoria</th>
+                      <th>Acciones</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr class="text-center" *ngFor="let producto of productos; let i = index">
+                      <td>{{producto.nombre_producto}}</td>
+                      <td>{{producto.precio}}</td>
+                      <td>{{producto.stock}}</td>
+                      <td>{{producto.nombre_categoria}}</td>
+                      <td>
+                          <a class="btn btn-primary" (click)="actualizarProducto(mymodal,producto)"> Editar </a>
+                          <button class="btn btn-danger" style="margin-left: 10px;" (click)="mostrarModalConfirmacion(producto)">Eliminar</button>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+  </div>
+</div>
+
+<ng-template #mymodal let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Información del Producto</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close()" style="position: absolute; top: 10px; right: 10px;">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form class="form-producto" [formGroup]="productoForm" (ngSubmit)="guardarProducto()" novalidate>
+        
+        <div class="form-group">
+          <div class="label-wrapper">
+            <label for="nombre">Producto</label>
+            <div *ngIf="formSubmitted && productoForm.get('nombre')?.invalid" class="error-message">
+              <small *ngIf="productoForm.get('nombre')?.errors?.['required']">Este campo es requerido.</small>
+              <small *ngIf="productoForm.get('nombre')?.errors?.['maxlength']">No exceder los 20 caracteres.</small>
+            </div>
+          </div>
+          <div class="input-wrapper">
+            <input type="text" id="nombre" formControlName="nombre" class="form-control" placeholder="Nombre del producto">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <div class="label-wrapper">
+            <label for="descripcion">Descripción</label>
+            <div *ngIf="formSubmitted && productoForm.get('descripcion')?.invalid" class="error-message">
+              <small *ngIf="productoForm.get('descripcion')?.errors?.['required']">Este campo es requerido.</small>
+              <small *ngIf="productoForm.get('descripcion')?.errors?.['maxlength']">No exceder los 50 caracteres.</small>
+            </div>
+          </div>
+          <div class="input-wrapper">
+            <input type="text" id="descripcion" formControlName="descripcion" class="form-control" placeholder="Descripción">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <div class="label-wrapper">
+            <label for="detalles">Detalles</label>
+            <div *ngIf="formSubmitted && productoForm.get('detalles')?.errors?.['maxlength']" class="error-message">
+              <small>No exceder los 50 caracteres.</small>
+            </div>
+          </div>
+          <div class="input-wrapper">
+            <input type="text" id="detalles" formControlName="detalles" class="form-control" placeholder="Detalles">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <div class="label-wrapper">
+            <label for="precio">Precio</label>
+            <div *ngIf="formSubmitted && productoForm.get('precio')?.invalid" class="error-message">
+              <small *ngIf="productoForm.get('precio')?.errors?.['required']">Este campo es requerido.</small>
+              <small *ngIf="productoForm.get('precio')?.errors?.['pattern']">El campo debe contener solo números enteros positivos.</small>
+            </div>
+          </div>
+          <div class="input-wrapper">
+            <input type="text" id="precio" formControlName="precio" class="form-control" placeholder="Precio">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <div class="label-wrapper">
+            <label for="stock">Stock</label>
+            <div *ngIf="formSubmitted && productoForm.get('stock')?.invalid" class="error-message">
+              <small *ngIf="productoForm.get('stock')?.errors?.['required']">Este campo es requerido.</small>
+              <small *ngIf="productoForm.get('stock')?.errors?.['pattern']">El campo debe contener solo números enteros positivos.</small>
+            </div>
+          </div>
+          <div class="input-wrapper">
+            <input type="text" id="stock" formControlName="stock" class="form-control" placeholder="Stock">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <div class="label-wrapper">
+            <label for="categoria">Categoría</label>
+            <div *ngIf="formSubmitted && productoForm.get('id_categoria')?.invalid" class="error-message">
+              <small *ngIf="productoForm.get('id_categoria')?.errors?.['required']">Este campo es requerido.</small>
+            </div>
+          </div>
+          <div class="input-wrapper">
+              <select id="categoria" formControlName="id_categoria" class="form-control">
+                  <option *ngFor="let categoria of categoriasDisponibles" [value]="categoria.idCategoria">
+                    {{ categoria.nombreCategoria }}
+                  </option>
+              </select>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <div class="label-wrapper">
+            <label for="imagen">Imagen</label>
+            <div *ngIf="formSubmitted && productoForm.get('imagen')?.invalid" class="error-message">
+              <small *ngIf="productoForm.get('imagen')?.errors?.['required']">Este campo es requerido.</small>
+              <small *ngIf="productoForm.get('imagen')?.errors?.['invalidExtension']">Solo se permiten archivos con extensión .png.</small>
+              <small *ngIf="productoForm.get('imagen')?.errors?.['fileSizeExceeded']">El archivo no debe superar los {{ maxFileSizeInKB }}KB.</small>
+            </div>
+          </div>
+          <div class="input-wrapper">
+            <input #fileInput type="file" id="imagen" formControlName="imagen" class="form-control" (change)="onFileSelected($event)">
+          </div>
+        </div>
+        
+        
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<app-confirmation-modal 
+    [showConfirmation]="showConfirmation"
+    (confirmAction)="confirmarEliminacion()"
+    (cancelAction)="cancelarEliminacion()">
+</app-confirmation-modal>
+
+<app-spinner 
+  [show]="loading" 
+  message="Cargando...">
+</app-spinner>

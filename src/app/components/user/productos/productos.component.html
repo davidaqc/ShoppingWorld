@@ -1,0 +1,37 @@
+<app-nabvar></app-nabvar>
+
+<div class="container mt-3">
+    <ng-container *ngIf="productosEnVenta.length > 0; else noProductos">
+        <div *ngFor="let categoria of categorias" class="mb-4">
+            <ng-container *ngIf="getProductosPorCategoria(categoria).length > 0">
+                <div class="border rounded p-3 mb-3">
+                    <h3 class="text display-5 mb-3"><strong>{{ categoria }}</strong></h3>
+                    <div class="row row-cols-1 row-cols-md-3 g-4">
+                        <div class="col-sm-auto" *ngFor="let producto of getProductosPorCategoria(categoria)">
+                            <div class="card h-100">
+                                <img [src]="producto.image_url" class="card-img-top fixed-size-img" alt="Imagen de producto">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ producto.nombre_producto }}</h5>
+                                    <p class="card-text">{{ producto.descripcion }}</p>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Precio: ${{ producto.precio }}</li>
+                                    <li class="list-group-item">Stock: {{ producto.stock }}</li>
+                                </ul>
+                                <div class="card-body">
+                                    <a href="#" class="btn btn-primary disabled" onclick="return false;">Comprar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </ng-container>
+    <ng-template #noProductos>
+        <div class="alert alert-warning text-center" role="alert">
+            <h4 class="alert-heading">No hay productos disponibles</h4>
+            <p>Actualmente no tenemos productos en venta. Por favor, vuelve más tarde o contáctanos para más información.</p>
+        </div>
+    </ng-template>
+</div>

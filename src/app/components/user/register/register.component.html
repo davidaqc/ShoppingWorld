@@ -1,0 +1,117 @@
+<div class="register-page">
+    <div class="container">
+      <div class="row justify-content-center align-items-center" style="height: 100vh;">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header bg-primary text-white text-center">Registrarse</div>
+            <div class="card-body">
+              <form [formGroup]="registroForm" (ngSubmit)="registrar()">
+                <div class="mb-3 row">
+                    <label for="nombre" class="col-md-4 col-form-label">Nombre</label>
+                    <div class="col-md-8">
+                        <input formControlName="nombre" type="text" id="nombre" class="form-control" name="nombre">
+                        <div *ngIf="formSubmitted && registroForm.get('nombre')?.invalid" class="text-danger">
+                        <small *ngIf="registroForm.get('nombre')?.errors?.['required']">Por favor, rellena este campo.</small>
+                        <small *ngIf="registroForm.get('nombre')?.errors?.['maxlength']">El nombre no debe exceder los 50 caracteres.</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-3 row">
+                    <label for="apellidos" class="col-md-4 col-form-label">Apellidos</label>
+                    <div class="col-md-8">
+                        <input formControlName="apellidos" type="text" id="apellidos" class="form-control" name="apellidos">
+                        <div *ngIf="formSubmitted && registroForm.get('apellidos')?.invalid" class="text-danger">
+                        <small *ngIf="registroForm.get('apellidos')?.errors?.['required']">Por favor, rellena este campo.</small>
+                        <small *ngIf="registroForm.get('apellidos')?.errors?.['maxlength']">Los apellidos no deben exceder los 50 caracteres.</small>
+                        </div>
+                    </div>
+                </div>                  
+  
+                <div class="mb-3 row">
+                  <label for="numeroIdentificacion" class="col-md-4 col-form-label">N° Identificación</label>
+                  <div class="col-md-8">
+                    <input formControlName="numeroIdentificacion" type="text" id="numeroIdentificacion" class="form-control" name="numeroIdentificacion">
+                    <div *ngIf="formSubmitted && registroForm.get('numeroIdentificacion')?.invalid" class="text-danger">
+                      <small *ngIf="registroForm.get('numeroIdentificacion')?.errors?.['required']">Por favor, rellena este campo.</small>
+                      <small *ngIf="registroForm.get('numeroIdentificacion')?.errors?.['pattern']">El campo debe contener solo números enteros positivos.</small>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="mb-3 row">
+                  <label for="email" class="col-md-4 col-form-label">Email</label>
+                  <div class="col-md-8">
+                    <input formControlName="email" type="email" id="email" class="form-control" name="email">
+                    <div *ngIf="formSubmitted && registroForm.get('email')?.invalid" class="text-danger">
+                      <small *ngIf="registroForm.get('email')?.errors?.['required']">Por favor, rellena este campo.</small>
+                      <small *ngIf="registroForm.get('email')?.errors?.['email']">Email no válido.</small>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="mb-3 row">
+                    <label for="contrasena" class="col-md-4 col-form-label">Contraseña</label>
+                    <div class="col-md-8">
+                      <div class="input-group">
+                        <input formControlName="contra"
+                               [type]="mostrarContrasena ? 'text' : 'password'"
+                               id="contrasena"
+                               class="form-control"
+                               name="contrasena"
+                               (copy)="disableCopyPaste($event)"
+                               (cut)="disableCopyPaste($event)"
+                               (paste)="disableCopyPaste($event)">
+                        <span class="input-group-text" (click)="togglePasswordVisibility()" style="cursor: pointer;">
+                          <i class="fas" [ngClass]="{'fa-eye': !mostrarContrasena, 'fa-eye-slash': mostrarContrasena}"></i>
+                        </span>
+                      </div>
+                      <div *ngIf="formSubmitted && registroForm.get('contra')?.invalid" class="text-danger">
+                        <small *ngIf="registroForm.get('contra')?.errors?.['required']">Por favor, rellena este campo.</small>
+                        <small *ngIf="registroForm.get('contra')?.errors?.['minlength']">La contraseña debe tener al menos 8 caracteres.</small>
+                        <small *ngIf="registroForm.get('contra')?.errors?.['pattern']">La contraseña debe contener al menos un símbolo especial.</small>
+                      </div>
+                    </div>
+                </div>
+                  
+                <div class="mb-3 row">
+                    <label for="confirmeContra" class="col-md-4 col-form-label">Confirme Contraseña</label>
+                    <div class="col-md-8">
+                      <div class="input-group">
+                        <input formControlName="confirmeContra"
+                               [type]="mostrarConfirmeContra ? 'text' : 'password'"
+                               id="confirmeContra"
+                               class="form-control"
+                               name="confirmeContra"
+                               (copy)="disableCopyPaste($event)"
+                               (cut)="disableCopyPaste($event)"
+                               (paste)="disableCopyPaste($event)">
+                        <span class="input-group-text" (click)="toggleConfirmePasswordVisibility()" style="cursor: pointer;">
+                          <i class="fas" [ngClass]="{'fa-eye': !mostrarConfirmeContra, 'fa-eye-slash': mostrarConfirmeContra}"></i>
+                        </span>
+                      </div>
+                      <div *ngIf="formSubmitted && registroForm.get('confirmeContra')?.invalid" class="text-danger">
+                        <small *ngIf="registroForm.get('confirmeContra')?.errors?.['required']">Por favor, rellena este campo.</small>
+                        <small *ngIf="registroForm.errors?.['mismatch']">Las contraseñas no coinciden.</small>
+                      </div>
+                    </div>
+                </div>                                  
+  
+                <div class="mb-3 row">
+                  <div class="col-md-8 offset-md-4">
+                    <button type="submit" class="btn btn-success btn-block">Registrarse</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mensaje de éxito -->
+    <div class="alert alert-success text-center" *ngIf="showSuccess" style="position: absolute; top: 20px; left: 50%; transform: translateX(-50%);">
+      ¡Usuario registrado correctamente! Redirigiendo a la página de Productos..
+    </div>
+  </div>
+  

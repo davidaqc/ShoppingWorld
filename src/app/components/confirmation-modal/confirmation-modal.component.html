@@ -1,0 +1,20 @@
+<div class="modal" tabindex="-1" role="dialog" [ngClass]="{'show': showConfirmation}" [style.display]="showConfirmation ? 'block' : 'none'" (click)="cerrarConfirmacion()">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmación de Eliminación</h5>
+                <button type="button" class="btn-close" aria-label="Close" (click)="cerrarConfirmacion()"></button>
+            </div>
+            <div class="modal-body">
+                ¿Está seguro de que quiere proceder con la eliminación?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="cancelarEliminacion()">Cancelar</button>
+                <button type="button" class="btn btn-danger" (click)="confirmarEliminacion()">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Capa semitransparente para fondo gris -->
+<div class="modal-backdrop fade show" [ngClass]="{'show': showConfirmation}" [style.display]="showConfirmation ? 'block' : 'none'"></div>

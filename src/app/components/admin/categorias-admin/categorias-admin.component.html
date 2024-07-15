@@ -1,0 +1,81 @@
+<app-nabvar-admin></app-nabvar-admin>
+
+<div class="container mt-3">
+    <div class="card">
+        <div class="card-header">Gestionar Categorias</div>
+        <div class="card-body">
+
+            <!-- Mensaje de éxito -->
+            <div class="alert alert-success text-center" *ngIf="showSuccess" style="margin-bottom: 10px;">
+                {{ successMessage }}
+            </div>
+
+            <!-- Mensaje si no hay usuarios disponibles en general -->
+            <div *ngIf="categorias.length == 0" class="alert alert-warning text-center">
+                No hay categorias registradas actualmente.
+            </div>
+
+            <div class="d-flex justify-content-start mb-3">
+                <button type="submit" class="btn btn-success" (click)="crearNuevo(mymodal)">
+                    Crear nuevo
+                </button>
+            </div>
+
+            <table id="empleadosTable" border="1" class="table table-bordered table-lg" *ngIf="categorias.length > 0">
+                <thead class="thead-light text-center">
+                    <tr>
+                        <th>Categoria</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-center" *ngFor="let categoria of categorias; let i = index">
+                        <td>{{categoria.nombreCategoria}}</td>
+                        <td>
+                            <button class="btn btn-danger" (click)="mostrarModalConfirmacion(categoria)">Eliminar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<ng-template #mymodal let-modal>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Información de la Categoría</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.close()" style="position: absolute; top: 10px; right: 10px;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-categoria" [formGroup]="categoriaForm" (ngSubmit)="guardarCategoria()" novalidate>
+          
+          <div class="form-group">
+            <div class="label-wrapper">
+              <label for="nombre">Nombre</label>
+              <div *ngIf="formSubmitted && categoriaForm.get('nombre')?.invalid" class="error-message">
+                <small *ngIf="categoriaForm.get('nombre')?.errors?.['required']">Este campo es requerido.</small>
+                <small *ngIf="categoriaForm.get('nombre')?.errors?.['maxlength']">No exceder los 20 caracteres.</small>
+              </div>
+            </div>
+            <div class="input-wrapper">
+              <input type="text" id="nombre" formControlName="nombre" class="form-control" placeholder="Nombre de la categoría">
+            </div>
+          </div>
+  
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+</ng-template>  
+
+<app-confirmation-modal 
+    [showConfirmation]="showConfirmation"
+    (confirmAction)="confirmarEliminacion()"
+    (cancelAction)="cancelarEliminacion()">
+</app-confirmation-modal>
